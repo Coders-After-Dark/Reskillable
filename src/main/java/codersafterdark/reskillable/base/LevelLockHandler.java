@@ -42,9 +42,16 @@ public class LevelLockHandler {
     private static Map<Class<?>, List<Class<? extends LockKey>>> lockTypesMap = new HashMap<>();
     private static Map<LockKey, Set<FuzzyLockKey>> fuzzyLockInfo = new HashMap<>();
     private static String[] configLocks;
+    private static Map<String, Class<? extends LockKey>> lockNameMap = new HashMap<>();
 
     public static void loadFromConfig(String[] configValues) {
         configLocks = configValues;
+    }
+
+    static {
+        registerLockKeyName("itemstack", ItemInfo.class);
+        registerLockKeyName("mod", ModLockKey.class);
+        registerLockKeyName("nbt", GenericNBTLockKey.class);
     }
 
     public static void setupLocks() {
@@ -107,6 +114,23 @@ public class LevelLockHandler {
                 //TODO: Localize the error message (potentially also rephrase it slightly)
             }
         }
+    }
+
+    public static void registerLockKeyName(String name, Class<? extends LockKey> lockClass) {
+        lockNameMap.put(name, lockClass);
+    }
+
+    public static Class<? extends LockKey> getLockKeyClass(String name) {
+        Class<? extends LockKey> key = lockNameMap.get(name);
+        if (key == null) {
+            try {
+                key = (Class<? extends LockKey>) Class.forName(name);
+            } catch (ClassNotFoundException | ClassCastException e) {
+                System.out.println("Failed to load LockKeyClass: " + e.getMessage());
+            }
+        }
+
+        return key;
     }
 
     /**

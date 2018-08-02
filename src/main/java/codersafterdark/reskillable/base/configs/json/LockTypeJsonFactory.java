@@ -1,39 +1,20 @@
 package codersafterdark.reskillable.base.configs.json;
 
-import codersafterdark.reskillable.base.configs.json.parsers.CustomGeneralLockTypeJson;
-import codersafterdark.reskillable.base.configs.json.parsers.CustomLockTypeJson;
-import codersafterdark.reskillable.base.configs.json.types.BaseLockTypeJson;
-import codersafterdark.reskillable.base.configs.json.types.LockTypeGeneralJson;
-import codersafterdark.reskillable.base.configs.json.types.LockTypeItem;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
+import net.minecraft.item.Item;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
 public class LockTypeJsonFactory {
-    private static Map<String, Type> types = new HashMap<>();
     private static Map<Type, JsonDeserializer> deserializerMap = new HashMap<>();
 
     static {
-        registerType("itemstack", LockTypeItem.class);
-    }
-
-    public static Type getLockType(String string) {
-        return types.getOrDefault(string, LockTypeGeneralJson.class);
-    }
-
-    public static void registerType(String name, Type type) {
-        registerType(name, type, null);
-    }
-
-    public static void registerType(String name, Type type, JsonDeserializer deserializer) {
-        types.put(name, type);
-        if (deserializer != null) {
-            deserializerMap.put(type, deserializer);
-        }
+        registerDeserializer(LockJson.class, new CustomLockJson());
+        registerDeserializer(Item.class, new CustomItemJson());
     }
 
     public static void registerDeserializer(Type type, JsonDeserializer deserializer) {
@@ -42,9 +23,7 @@ public class LockTypeJsonFactory {
 
     public static Gson constructGSON() {
         GsonBuilder builder = new GsonBuilder()
-                .setPrettyPrinting()
-                .registerTypeAdapter(BaseLockTypeJson.class, new CustomLockTypeJson())
-                .registerTypeAdapter(LockTypeGeneralJson.class, new CustomGeneralLockTypeJson());
+                .setPrettyPrinting();
 
         deserializerMap.forEach(builder::registerTypeAdapter);
 

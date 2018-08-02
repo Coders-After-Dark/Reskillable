@@ -1,11 +1,7 @@
 package codersafterdark.reskillable.base.configs;
 
-import codersafterdark.reskillable.api.data.LockKey;
 import codersafterdark.reskillable.base.LevelLockHandler;
-import codersafterdark.reskillable.base.configs.json.parsers.CustomGeneralLockTypeJson;
-import codersafterdark.reskillable.base.configs.json.parsers.CustomLockTypeJson;
-import codersafterdark.reskillable.base.configs.json.types.BaseLockTypeJson;
-import codersafterdark.reskillable.base.configs.json.types.LockTypeGeneralJson;
+import codersafterdark.reskillable.base.configs.json.LockJson;
 import codersafterdark.reskillable.base.configs.json.LockTypeJsonFactory;
 import codersafterdark.reskillable.lib.LibMisc;
 import com.google.gson.Gson;
@@ -29,8 +25,6 @@ public class ConfigHandler {
     public static Configuration mainConfig;
     public static Gson gson = new GsonBuilder()
             .setPrettyPrinting()
-            .registerTypeAdapter(BaseLockTypeJson.class, new CustomLockTypeJson())
-            .registerTypeAdapter(LockTypeGeneralJson.class, new CustomGeneralLockTypeJson())
             .create();
     /// Main Config ///
     public static boolean disableSheepWool = true;
@@ -90,9 +84,11 @@ public class ConfigHandler {
     }
 
     public static void loadJSONLocks() {
-        File mainLocks = new File(jsonDir, "defaultLocks.json");
+        /*File mainLocks = new File(jsonDir, "defaultLocks.json");
         String json = gson.toJson(LevelLockHandler.DEFAULT_SKILL_LOCKS);
-        ConfigUtilities.writeStringToFile(json, mainLocks);
+        ConfigUtilities.writeStringToFile(json, mainLocks);*/
+
+        main(null);
     }
 
 
@@ -144,11 +140,383 @@ public class ConfigHandler {
                 "\t}\n" +
                 "]";
 
-        List<BaseLockTypeJson> obj = LockTypeJsonFactory.constructGSON().fromJson(s, new TypeToken<List<BaseLockTypeJson>>() {}.getType());
+        String s2 = "[{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:iron_shovel\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:gathering|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:iron_axe\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:gathering|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:iron_sword\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:attack|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:iron_pickaxe\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:mining|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:iron_hoe\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:farming|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:iron_helmet\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:defense|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:iron_chestplate\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:defense|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:iron_leggings\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:defense|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:iron_boots\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:defense|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:golden_shovel\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:gathering|5\",\n" +
+                "\t\t\t\"reskillable:magic|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:golden_axe\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:gathering|5\",\n" +
+                "\t\t\t\"reskillable:magic|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:golden_sword\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:attack|5\",\n" +
+                "\t\t\t\"reskillable:magic|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:golden_pickaxe\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:mining|5\",\n" +
+                "\t\t\t\"reskillable:magic|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:golden_hoe\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:farming|5\",\n" +
+                "\t\t\t\"reskillable:magic|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:golden_helmet\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:defense|5\",\n" +
+                "\t\t\t\"reskillable:magic|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:golden_chestplate\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:defense|5\",\n" +
+                "\t\t\t\"reskillable:magic|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:golden_leggings\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:defense|5\",\n" +
+                "\t\t\t\"reskillable:magic|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:golden_boots\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:defense|5\",\n" +
+                "\t\t\t\"reskillable:magic|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:diamond_shovel\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:gathering|16\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:diamond_axe\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:gathering|16\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:diamond_sword\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:attack|16\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:diamond_pickaxe\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:mining|16\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:diamond_hoe\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:farming|16\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:diamond_helmet\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:defense|16\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:diamond_chestplate\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:defense|16\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:diamond_leggings\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:defense|16\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:diamond_boots\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:defense|16\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:shears\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:farming|5\",\n" +
+                "\t\t\t\"reskillable:gathering|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:fishing_rod\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:gathering|8\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:shield\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:defense|8\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:bow\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:attack|8\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:ender_pearl\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:magic|8\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:ender_eye\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:magic|16\",\n" +
+                "\t\t\t\"reskillable:building|8\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:elytra\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:defense|16\",\n" +
+                "\t\t\t\"reskillable:agility|24\",\n" +
+                "\t\t\t\"reskillable:magic|16\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:lead\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:farming|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:end_crystal\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:building|24\",\n" +
+                "\t\t\t\"reskillable:magic|32\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:iron_horse_armor\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:defense|5\",\n" +
+                "\t\t\t\"reskillable:agility|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:golden_horse_armor\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:defense|5\",\n" +
+                "\t\t\t\"reskillable:magic|5\",\n" +
+                "\t\t\t\"reskillable:agility|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:diamond_horse_armor\",\n" +
+                "\t\t\"meta\": \"*\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:defense|16\",\n" +
+                "\t\t\t\"reskillable:agility|16\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:fireworks\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:agility|24\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:dye\",\n" +
+                "\t\t\"meta\": \"15\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:farming|12\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:saddle\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:agility|12\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:redstone\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:building|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:redstone_torch\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:building|5\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"minecraft:skull\",\n" +
+                "\t\t\"meta\": \"1\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"reskillable:building|20\",\n" +
+                "\t\t\t\"reskillable:attack|20\",\n" +
+                "\t\t\t\"reskillable:defense|20\"\n" +
+                "\t\t]\n" +
+                "\t}\n" +
+                "]";
 
-        for (BaseLockTypeJson baseLockTypeJson : obj) {
-            LevelLockHandler.addLockByKey(LockKey);
-        }
+        List<LockJson> obj = LockTypeJsonFactory.constructGSON().fromJson(s2, new TypeToken<List<LockJson>>() {
+        }.getType());
+
         System.out.println("obj = " + obj);
     }
 }
