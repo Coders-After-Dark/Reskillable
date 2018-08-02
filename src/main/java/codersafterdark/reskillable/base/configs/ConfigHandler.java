@@ -1,11 +1,12 @@
 package codersafterdark.reskillable.base.configs;
 
+import codersafterdark.reskillable.api.data.LockKey;
 import codersafterdark.reskillable.base.LevelLockHandler;
 import codersafterdark.reskillable.base.configs.json.parsers.CustomGeneralLockTypeJson;
 import codersafterdark.reskillable.base.configs.json.parsers.CustomLockTypeJson;
 import codersafterdark.reskillable.base.configs.json.types.BaseLockTypeJson;
 import codersafterdark.reskillable.base.configs.json.types.LockTypeGeneralJson;
-import codersafterdark.reskillable.base.configs.json.types.LockTypeJsonFactory;
+import codersafterdark.reskillable.base.configs.json.LockTypeJsonFactory;
 import codersafterdark.reskillable.lib.LibMisc;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -144,6 +145,10 @@ public class ConfigHandler {
                 "]";
 
         List<BaseLockTypeJson> obj = LockTypeJsonFactory.constructGSON().fromJson(s, new TypeToken<List<BaseLockTypeJson>>() {}.getType());
+
+        for (BaseLockTypeJson baseLockTypeJson : obj) {
+            LevelLockHandler.addLockByKey(LockKey);
+        }
         System.out.println("obj = " + obj);
     }
 }

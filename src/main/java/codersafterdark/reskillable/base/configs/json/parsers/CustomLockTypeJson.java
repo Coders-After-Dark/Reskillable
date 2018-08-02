@@ -1,7 +1,7 @@
 package codersafterdark.reskillable.base.configs.json.parsers;
 
 import codersafterdark.reskillable.base.configs.json.types.BaseLockTypeJson;
-import codersafterdark.reskillable.base.configs.json.types.LockTypeJsonFactory;
+import codersafterdark.reskillable.base.configs.json.LockTypeJsonFactory;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;

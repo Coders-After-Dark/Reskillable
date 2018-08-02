@@ -1,7 +1,10 @@
-package codersafterdark.reskillable.base.configs.json.types;
+package codersafterdark.reskillable.base.configs.json;
 
 import codersafterdark.reskillable.base.configs.json.parsers.CustomGeneralLockTypeJson;
 import codersafterdark.reskillable.base.configs.json.parsers.CustomLockTypeJson;
+import codersafterdark.reskillable.base.configs.json.types.BaseLockTypeJson;
+import codersafterdark.reskillable.base.configs.json.types.LockTypeGeneralJson;
+import codersafterdark.reskillable.base.configs.json.types.LockTypeItem;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
@@ -31,6 +34,10 @@ public class LockTypeJsonFactory {
         if (deserializer != null) {
             deserializerMap.put(type, deserializer);
         }
+    }
+
+    public static void registerDeserializer(Type type, JsonDeserializer deserializer) {
+        deserializerMap.put(type, deserializer);
     }
 
     public static Gson constructGSON() {
