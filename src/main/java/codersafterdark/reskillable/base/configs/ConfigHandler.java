@@ -1,45 +1,52 @@
 package codersafterdark.reskillable.base.configs;
 
 import codersafterdark.reskillable.base.LevelLockHandler;
+import codersafterdark.reskillable.base.configs.json.parsers.CustomGeneralLockTypeJson;
+import codersafterdark.reskillable.base.configs.json.parsers.CustomLockTypeJson;
+import codersafterdark.reskillable.base.configs.json.types.BaseLockTypeJson;
+import codersafterdark.reskillable.base.configs.json.types.LockTypeGeneralJson;
+import codersafterdark.reskillable.base.configs.json.types.LockTypeJsonFactory;
 import codersafterdark.reskillable.lib.LibMisc;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static codersafterdark.reskillable.base.configs.ConfigUtilities.loadPropBool;
 
 public class ConfigHandler {
 
+    /////////////
+    // Configs //
+    /////////////
+    public static Configuration mainConfig;
+    public static Gson gson = new GsonBuilder()
+            .setPrettyPrinting()
+            .registerTypeAdapter(BaseLockTypeJson.class, new CustomLockTypeJson())
+            .registerTypeAdapter(LockTypeGeneralJson.class, new CustomGeneralLockTypeJson())
+            .create();
+    /// Main Config ///
+    public static boolean disableSheepWool = true;
+    public static boolean enforceFakePlayers = true;
+
+    ////////////////////
+    // Default Values //
+    ////////////////////
+    public static boolean enableTabs = true;
+    public static boolean enableLevelUp = true;
+    public static boolean hideRequirements = true;
+    public static Map<String, Configuration> cachedConfigs = new HashMap<>();
     /////////////////
     // Directories //
     /////////////////
     private static File configDir;
     private static File jsonDir;
-
-
-    /////////////
-    // Configs //
-    /////////////
-    public static Configuration mainConfig;
-    public static Gson locks;
-
-    ////////////////////
-    // Default Values //
-    ////////////////////
-
-    /// Main Config ///
-    public static boolean disableSheepWool = true;
-    public static boolean enforceFakePlayers = true;
-    public static boolean enableTabs = true;
-    public static boolean enableLevelUp = true;
-    public static boolean hideRequirements = true;
-
-    public static Map<String, Configuration> cachedConfigs = new HashMap<>();
 
     public static void init(File file) {
         generateFolder(file);
@@ -81,9 +88,9 @@ public class ConfigHandler {
         }
     }
 
-    public static void loadJSONLocks(){
+    public static void loadJSONLocks() {
         File mainLocks = new File(jsonDir, "defaultLocks.json");
-        String json = locks.toJson(LevelLockHandler.DEFAULT_SKILL_LOCKS);
+        String json = gson.toJson(LevelLockHandler.DEFAULT_SKILL_LOCKS);
         ConfigUtilities.writeStringToFile(json, mainLocks);
     }
 
@@ -99,6 +106,44 @@ public class ConfigHandler {
         }
         configDir = dir;
         jsonDir = dir2;
-        locks = new GsonBuilder().setPrettyPrinting().create();
+    }
+
+    public static void main(String[] args) {
+        String s = "[{\n" +
+                "\t\t\"type\": \"modid\",\n" +
+                "\t\t\"modid\": \"modid\",\n" +
+                "\t\t\"ntb\": \"string\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"string\",\n" +
+                "\t\t\t\"string2\",\n" +
+                "\t\t\t\"string3\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"itemstack\",\n" +
+                "\t\t\"stack\": \"mod:stack:2\",\n" +
+                "\t\t\"ntb\": \"string\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"string\",\n" +
+                "\t\t\t\"string2\",\n" +
+                "\t\t\t\"string3\"\n" +
+                "\t\t]\n" +
+                "\t},\n" +
+                "\t{\n" +
+                "\t\t\"type\": \"locktype\",\n" +
+                "\t\t\"target\": \"target\",\n" +
+                "\t\t\"additionalparam\": \"primitiveType\",\n" +
+                "\t\t\"additionalparams2\": \"primitiveType2\",\n" +
+                "\t\t\"additionalparams3\": \"primitiveType3\",\n" +
+                "\t\t\"requirements\": [\n" +
+                "\t\t\t\"string\",\n" +
+                "\t\t\t\"string2\",\n" +
+                "\t\t\t\"string3\"\n" +
+                "\t\t]\n" +
+                "\t}\n" +
+                "]";
+
+        List<BaseLockTypeJson> obj = LockTypeJsonFactory.constructGSON().fromJson(s, new TypeToken<List<BaseLockTypeJson>>() {}.getType());
+        System.out.println("obj = " + obj);
     }
 }
