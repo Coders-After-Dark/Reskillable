@@ -1,8 +1,9 @@
-package codersafterdark.reskillable.base.configs.json;
+package codersafterdark.reskillable.base.configs.json.parsers;
 
 import codersafterdark.reskillable.api.data.LockKey;
 import codersafterdark.reskillable.api.data.RequirementHolder;
 import codersafterdark.reskillable.base.LevelLockHandler;
+import codersafterdark.reskillable.base.configs.json.LockJson;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;

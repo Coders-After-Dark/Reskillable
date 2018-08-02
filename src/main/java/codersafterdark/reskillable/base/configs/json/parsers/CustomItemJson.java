@@ -1,4 +1,4 @@
-package codersafterdark.reskillable.base.configs.json;
+package codersafterdark.reskillable.base.configs.json.parsers;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

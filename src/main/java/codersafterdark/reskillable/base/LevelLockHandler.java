@@ -56,7 +56,7 @@ public class LevelLockHandler {
 
     public static void setupLocks() {
         registerDefaultLockKeys();
-        if (configLocks != null) {
+        /*if (configLocks != null) {
             for (String s : configLocks) {
                 String[] tokens = s.split("=");
                 if (tokens.length == 2) {
@@ -86,7 +86,10 @@ public class LevelLockHandler {
                     }
                 }
             }
-        }
+        }*/
+
+        ConfigHandler.loadJSONLocks();
+
     }
 
     private static void registerDefaultLockKeys() {

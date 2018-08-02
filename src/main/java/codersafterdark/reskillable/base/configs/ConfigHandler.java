@@ -11,6 +11,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +50,7 @@ public class ConfigHandler {
         mainConfig = new Configuration(new File(configDir.getPath(), "reskillable.cfg"));
         mainConfig.load();
         loadData();
-        loadJSONLocks();
+        // loadJSONLocks();
         cachedConfigs.put(LibMisc.MOD_ID, mainConfig);
         MinecraftForge.EVENT_BUS.register(ConfigListener.class);
     }
@@ -84,11 +86,24 @@ public class ConfigHandler {
     }
 
     public static void loadJSONLocks() {
-        /*File mainLocks = new File(jsonDir, "defaultLocks.json");
-        String json = gson.toJson(LevelLockHandler.DEFAULT_SKILL_LOCKS);
-        ConfigUtilities.writeStringToFile(json, mainLocks);*/
+        System.out.println("Starting to load json");
 
-        main(null);
+        File mainLocks = new File(jsonDir, "defaultLocks.json");
+        // String json = gson.toJson(LevelLockHandler.DEFAULT_SKILL_LOCKS);
+        // ConfigUtilities.writeStringToFile(json, mainLocks);
+        try (FileReader reader = new FileReader(mainLocks)) {
+            List<LockJson> obj = LockTypeJsonFactory.constructGSON().fromJson(reader, new TypeToken<List<LockJson>>() {
+            }.getType());
+
+            System.out.println("obj = " + obj);
+
+            for (LockJson lockJson : obj) {
+                LevelLockHandler.addLockByKey(lockJson.getModLockKey(), lockJson.getRequirements());
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
