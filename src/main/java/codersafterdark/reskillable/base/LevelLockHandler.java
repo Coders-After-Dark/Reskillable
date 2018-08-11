@@ -32,6 +32,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Level;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
@@ -88,7 +89,11 @@ public class LevelLockHandler {
             }
         }*/
 
-        ConfigHandler.loadJSONLocks();
+        try {
+            ConfigHandler.loadJSONLocks();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

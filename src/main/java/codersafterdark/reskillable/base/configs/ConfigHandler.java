@@ -1,11 +1,13 @@
 package codersafterdark.reskillable.base.configs;
 
+import codersafterdark.reskillable.Reskillable;
 import codersafterdark.reskillable.base.LevelLockHandler;
 import codersafterdark.reskillable.base.configs.json.LockJson;
 import codersafterdark.reskillable.base.configs.json.LockTypeJsonFactory;
 import codersafterdark.reskillable.lib.LibMisc;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -13,6 +15,8 @@ import net.minecraftforge.common.config.Configuration;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,25 +89,43 @@ public class ConfigHandler {
         }
     }
 
-    public static void loadJSONLocks() {
-        System.out.println("Starting to load json");
+    public static void loadJSONLocks() throws IOException {
+        Reskillable.logger.info("Starting to load json");
+        if (!jsonDir.exists() && jsonDir.mkdir()) {
+            Reskillable.logger.warn("Couldn't create json lock file directory");
+        }
 
-        File mainLocks = new File(jsonDir, "defaultLocks.json");
+        File[] list = jsonDir.listFiles();
+        if (list != null && list.length == 0) {
+            Files.copy(ConfigHandler.class.getResourceAsStream("/defaultLocks.json"), Paths.get(jsonDir.getAbsolutePath(), "defaultLocks.json"));
+        }
+
+        Files.walk(jsonDir.toPath())
+                .filter(Files::isRegularFile)
+                .filter(path -> path.toString().endsWith(".json"))
+                .sorted()
+                .forEachOrdered(path -> {
+                    Reskillable.logger.info("Starting to load from file " + path);
+
+                    try (FileReader reader = new FileReader(path.toFile())) {
+                        List<LockJson> obj = LockTypeJsonFactory.constructGSON().fromJson(reader, new TypeToken<List<LockJson>>() {
+                        }.getType());
+                        Reskillable.logger.info("Locks loaded " + obj.size() + ": " + obj);
+
+                        for (LockJson lockJson : obj) {
+                            LevelLockHandler.addLockByKey(lockJson.getModLockKey(), lockJson.getRequirements());
+                        }
+
+                    } catch (IOException | JsonParseException e) {
+                        Reskillable.logger.error("Couldn't load json from " + path, e);
+                    }
+                });
+
+
+        // File mainLocks = new File(jsonDir, "defaultLocks.json");
         // String json = gson.toJson(LevelLockHandler.DEFAULT_SKILL_LOCKS);
         // ConfigUtilities.writeStringToFile(json, mainLocks);
-        try (FileReader reader = new FileReader(mainLocks)) {
-            List<LockJson> obj = LockTypeJsonFactory.constructGSON().fromJson(reader, new TypeToken<List<LockJson>>() {
-            }.getType());
 
-            System.out.println("obj = " + obj);
-
-            for (LockJson lockJson : obj) {
-                LevelLockHandler.addLockByKey(lockJson.getModLockKey(), lockJson.getRequirements());
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 
