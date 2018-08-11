@@ -1,5 +1,6 @@
 package codersafterdark.reskillable.base;
 
+import codersafterdark.reskillable.Reskillable;
 import codersafterdark.reskillable.api.ReskillableAPI;
 import codersafterdark.reskillable.api.data.*;
 import codersafterdark.reskillable.base.configs.ConfigHandler;
@@ -29,7 +30,6 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickItem
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Level;
 
 import java.io.IOException;
@@ -45,54 +45,23 @@ public class LevelLockHandler {
     private static String[] configLocks;
     private static Map<String, Class<? extends LockKey>> lockNameMap = new HashMap<>();
 
-    public static void loadFromConfig(String[] configValues) {
-        configLocks = configValues;
-    }
-
     static {
         registerLockKeyName("itemstack", ItemInfo.class);
         registerLockKeyName("mod", ModLockKey.class);
         registerLockKeyName("nbt", GenericNBTLockKey.class);
     }
 
+    public static void loadFromConfig(String[] configValues) {
+        configLocks = configValues;
+    }
+
     public static void setupLocks() {
         registerDefaultLockKeys();
-        /*if (configLocks != null) {
-            for (String s : configLocks) {
-                String[] tokens = s.split("=");
-                if (tokens.length == 2) {
-                    String itemName = tokens[0].toLowerCase();
-                    String[] itemParts = itemName.split(":");
-                    if (itemParts.length == 1) {
-                        addModLock(itemName, RequirementHolder.fromString(tokens[1])); //itemName is really the mod name
-                        continue;
-                    }
-                    int metadata = 0;
-                    if (itemParts.length > 2) {
-                        String meta = itemParts[2];
-                        try {
-                            if (meta.equals("*")) {
-                                metadata = OreDictionary.WILDCARD_VALUE;
-                            } else {
-                                metadata = Integer.parseInt(meta);
-                            }
-                            itemName = itemParts[0] + ':' + itemParts[1];
-                        } catch (NumberFormatException ignored) {
-                            //Do nothing if the meta is not a valid number or wildcard (Maybe it somehow is part of the item name)
-                        }
-                    }
-                    Item item = Item.getByNameOrId(itemName);
-                    if (item != null) {
-                        addLock(new ItemStack(item, 1, metadata), RequirementHolder.fromString(tokens[1]));
-                    }
-                }
-            }
-        }*/
 
         try {
             ConfigHandler.loadJSONLocks();
         } catch (IOException e) {
-            e.printStackTrace();
+            Reskillable.logger.error("Failed to load jsons", e);
         }
 
     }
