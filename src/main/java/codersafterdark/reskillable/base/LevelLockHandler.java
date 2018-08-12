@@ -103,7 +103,7 @@ public class LevelLockHandler {
             try {
                 key = (Class<? extends LockKey>) Class.forName(name);
             } catch (ClassNotFoundException | ClassCastException e) {
-                System.out.println("Failed to load LockKeyClass: " + e.getMessage());
+                Reskillable.logger.error("Failed to load LockKeyClass: ", e);
             }
         }
 
