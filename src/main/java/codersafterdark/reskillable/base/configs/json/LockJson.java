@@ -5,26 +5,26 @@ import codersafterdark.reskillable.api.data.RequirementHolder;
 
 public class LockJson {
     private RequirementHolder requirements;
-    private LockKey modLockKey;
+    private LockKey lockKey;
 
-    public LockJson(RequirementHolder requirements, LockKey modLockKey) {
+    public LockJson(RequirementHolder requirements, LockKey lockKey) {
         this.requirements = requirements;
-        this.modLockKey = modLockKey;
+        this.lockKey = lockKey;
     }
 
     public RequirementHolder getRequirements() {
         return requirements;
     }
 
-    public LockKey getModLockKey() {
-        return modLockKey;
+    public LockKey getLockKey() {
+        return lockKey;
     }
 
     @Override
     public String toString() {
         return "LockJson{" +
                 "requirements=" + requirements +
-                ", modLockKey=" + modLockKey +
+                ", lockKey=" + lockKey +
                 '}';
     }
 }

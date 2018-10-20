@@ -5,8 +5,6 @@ import codersafterdark.reskillable.base.LevelLockHandler;
 import codersafterdark.reskillable.base.configs.json.LockJson;
 import codersafterdark.reskillable.base.configs.json.LockTypeJsonFactory;
 import codersafterdark.reskillable.lib.LibMisc;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import net.minecraftforge.common.MinecraftForge;
@@ -111,7 +109,7 @@ public class ConfigHandler {
                         Reskillable.logger.info("Locks loaded " + obj.size() + ": " + obj);
 
                         for (LockJson lockJson : obj) {
-                            LevelLockHandler.addLockByKey(lockJson.getModLockKey(), lockJson.getRequirements());
+                            LevelLockHandler.addLockByKey(lockJson.getLockKey(), lockJson.getRequirements());
                         }
 
                     } catch (IOException | JsonParseException e) {
