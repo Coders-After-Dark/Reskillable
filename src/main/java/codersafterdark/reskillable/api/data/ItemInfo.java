@@ -60,4 +60,13 @@ public class ItemInfo extends NBTLockKey {
     public int getMetadata() {
         return metadata;
     }
+
+    @Override
+    public String toString() {
+        return "ItemInfo{" +
+                "metadata=" + metadata +
+                ", item=" + item +
+                ", tag=" + tag +
+                '}';
+    }
 }

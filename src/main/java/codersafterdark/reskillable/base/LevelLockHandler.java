@@ -1,5 +1,6 @@
 package codersafterdark.reskillable.base;
 
+import codersafterdark.reskillable.Reskillable;
 import codersafterdark.reskillable.api.ReskillableAPI;
 import codersafterdark.reskillable.api.data.*;
 import codersafterdark.reskillable.base.configs.ConfigHandler;
@@ -29,59 +30,36 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickItem
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Level;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import static net.minecraftforge.fml.common.eventhandler.EventPriority.HIGH;
 
 public class LevelLockHandler {
-    public static final String[] DEFAULT_SKILL_LOCKS = new String[]{"minecraft:iron_shovel:*=reskillable:gathering|5", "minecraft:iron_axe:*=reskillable:gathering|5", "minecraft:iron_sword:*=reskillable:attack|5", "minecraft:iron_pickaxe:*=reskillable:mining|5", "minecraft:iron_hoe:*=reskillable:farming|5", "minecraft:iron_helmet:*=reskillable:defense|5", "minecraft:iron_chestplate:*=reskillable:defense|5", "minecraft:iron_leggings:*=reskillable:defense|5", "minecraft:iron_boots:*=reskillable:defense|5", "minecraft:golden_shovel:*=reskillable:gathering|5,reskillable:magic|5", "minecraft:golden_axe:*=reskillable:gathering|5,reskillable:magic|5", "minecraft:golden_sword:*=reskillable:attack|5,reskillable:magic|5", "minecraft:golden_pickaxe:*=reskillable:mining|5,reskillable:magic|5", "minecraft:golden_hoe:*=reskillable:farming|5,reskillable:magic|5", "minecraft:golden_helmet:*=reskillable:defense|5,reskillable:magic|5", "minecraft:golden_chestplate:*=reskillable:defense|5,reskillable:magic|5", "minecraft:golden_leggings:*=reskillable:defense|5,reskillable:magic|5", "minecraft:golden_boots:*=reskillable:defense|5,reskillable:magic|5", "minecraft:diamond_shovel:*=reskillable:gathering|16", "minecraft:diamond_axe:*=reskillable:gathering|16", "minecraft:diamond_sword:*=reskillable:attack|16", "minecraft:diamond_pickaxe:*=reskillable:mining|16", "minecraft:diamond_hoe:*=reskillable:farming|16", "minecraft:diamond_helmet:*=reskillable:defense|16", "minecraft:diamond_chestplate:*=reskillable:defense|16", "minecraft:diamond_leggings:*=reskillable:defense|16", "minecraft:diamond_boots:*=reskillable:defense|16", "minecraft:shears:*=reskillable:farming|5,reskillable:gathering|5", "minecraft:fishing_rod:*=reskillable:gathering|8", "minecraft:shield:*=reskillable:defense|8", "minecraft:bow:*=reskillable:attack|8", "minecraft:ender_pearl=reskillable:magic|8", "minecraft:ender_eye=reskillable:magic|16,reskillable:building|8", "minecraft:elytra:*=reskillable:defense|16,reskillable:agility|24,reskillable:magic|16", "minecraft:lead=reskillable:farming|5", "minecraft:end_crystal=reskillable:building|24,reskillable:magic|32", "minecraft:iron_horse_armor:*=reskillable:defense|5,reskillable:agility|5", "minecraft:golden_horse_armor:*=reskillable:defense|5,reskillable:magic|5,reskillable:agility|5", "minecraft:diamond_horse_armor:*=reskillable:defense|16,reskillable:agility|16", "minecraft:fireworks=reskillable:agility|24", "minecraft:dye:15=reskillable:farming|12", "minecraft:saddle=reskillable:agility|12", "minecraft:redstone=reskillable:building|5", "minecraft:redstone_torch=reskillable:building|5", "minecraft:skull:1=reskillable:building|20,reskillable:attack|20,reskillable:defense|20"};
     private static final Map<LockKey, RequirementHolder> locks = new HashMap<>(); //This should stay private to ensure that it is added to correctly
     public static RequirementHolder EMPTY_LOCK = new RequirementHolder();
     private static Map<Class<?>, List<Class<? extends LockKey>>> lockTypesMap = new HashMap<>();
     private static Map<LockKey, Set<FuzzyLockKey>> fuzzyLockInfo = new HashMap<>();
-    private static String[] configLocks;
+    private static Map<String, Class<? extends LockKey>> lockNameMap = new HashMap<>();
 
-    public static void loadFromConfig(String[] configValues) {
-        configLocks = configValues;
+    static {
+        registerLockKeyName("itemstack", ItemInfo.class);
+        registerLockKeyName("mod", ModLockKey.class);
+        registerLockKeyName("nbt", GenericNBTLockKey.class);
     }
 
     public static void setupLocks() {
         registerDefaultLockKeys();
-        if (configLocks != null) {
-            for (String s : configLocks) {
-                String[] tokens = s.split("=");
-                if (tokens.length == 2) {
-                    String itemName = tokens[0].toLowerCase();
-                    String[] itemParts = itemName.split(":");
-                    if (itemParts.length == 1) {
-                        addModLock(itemName, RequirementHolder.fromString(tokens[1])); //itemName is really the mod name
-                        continue;
-                    }
-                    int metadata = 0;
-                    if (itemParts.length > 2) {
-                        String meta = itemParts[2];
-                        try {
-                            if (meta.equals("*")) {
-                                metadata = OreDictionary.WILDCARD_VALUE;
-                            } else {
-                                metadata = Integer.parseInt(meta);
-                            }
-                            itemName = itemParts[0] + ':' + itemParts[1];
-                        } catch (NumberFormatException ignored) {
-                            //Do nothing if the meta is not a valid number or wildcard (Maybe it somehow is part of the item name)
-                        }
-                    }
-                    Item item = Item.getByNameOrId(itemName);
-                    if (item != null) {
-                        addLock(new ItemStack(item, 1, metadata), RequirementHolder.fromString(tokens[1]));
-                    }
-                }
-            }
+
+        try {
+            ConfigHandler.loadJSONLocks();
+        } catch (IOException e) {
+            Reskillable.logger.error("Failed to load jsons", e);
         }
+
     }
 
     private static void registerDefaultLockKeys() {
@@ -109,6 +87,23 @@ public class LevelLockHandler {
                 //TODO: Localize the error message (potentially also rephrase it slightly)
             }
         }
+    }
+
+    public static void registerLockKeyName(String name, Class<? extends LockKey> lockClass) {
+        lockNameMap.put(name, lockClass);
+    }
+
+    public static Class<? extends LockKey> getLockKeyClass(String name) {
+        Class<? extends LockKey> key = lockNameMap.get(name);
+        if (key == null) {
+            try {
+                key = (Class<? extends LockKey>) Class.forName(name);
+            } catch (ClassNotFoundException | ClassCastException e) {
+                Reskillable.logger.error("Failed to load LockKeyClass: ", e);
+            }
+        }
+
+        return key;
     }
 
     /**

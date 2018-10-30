@@ -1,0 +1,374 @@
+[
+  {
+    "type": "itemstack",
+    "item": "minecraft:iron_shovel",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:gathering|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:iron_axe",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:gathering|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:iron_sword",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:attack|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:iron_pickaxe",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:mining|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:iron_hoe",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:farming|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:iron_helmet",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:defense|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:iron_chestplate",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:defense|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:iron_leggings",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:defense|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:iron_boots",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:defense|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:golden_shovel",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:gathering|5",
+      "reskillable:magic|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:golden_axe",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:gathering|5",
+      "reskillable:magic|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:golden_sword",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:attack|5",
+      "reskillable:magic|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:golden_pickaxe",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:mining|5",
+      "reskillable:magic|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:golden_hoe",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:farming|5",
+      "reskillable:magic|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:golden_helmet",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:defense|5",
+      "reskillable:magic|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:golden_chestplate",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:defense|5",
+      "reskillable:magic|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:golden_leggings",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:defense|5",
+      "reskillable:magic|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:golden_boots",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:defense|5",
+      "reskillable:magic|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:diamond_shovel",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:gathering|16"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:diamond_axe",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:gathering|16"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:diamond_sword",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:attack|16"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:diamond_pickaxe",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:mining|16"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:diamond_hoe",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:farming|16"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:diamond_helmet",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:defense|16"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:diamond_chestplate",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:defense|16"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:diamond_leggings",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:defense|16"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:diamond_boots",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:defense|16"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:shears",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:farming|5",
+      "reskillable:gathering|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:fishing_rod",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:gathering|8"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:shield",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:defense|8"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:bow",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:attack|8"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:ender_pearl",
+    "requirements": [
+      "reskillable:magic|8"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:ender_eye",
+    "requirements": [
+      "reskillable:magic|16",
+      "reskillable:building|8"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:elytra",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:defense|16",
+      "reskillable:agility|24",
+      "reskillable:magic|16"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:lead",
+    "requirements": [
+      "reskillable:farming|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:end_crystal",
+    "requirements": [
+      "reskillable:building|24",
+      "reskillable:magic|32"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:iron_horse_armor",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:defense|5",
+      "reskillable:agility|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:golden_horse_armor",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:defense|5",
+      "reskillable:magic|5",
+      "reskillable:agility|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:diamond_horse_armor",
+    "metadata": "*",
+    "requirements": [
+      "reskillable:defense|16",
+      "reskillable:agility|16"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:fireworks",
+    "requirements": [
+      "reskillable:agility|24"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:dye",
+    "metadata": "15",
+    "requirements": [
+      "reskillable:farming|12"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:saddle",
+    "requirements": [
+      "reskillable:agility|12"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:redstone",
+    "requirements": [
+      "reskillable:building|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:redstone_torch",
+    "requirements": [
+      "reskillable:building|5"
+    ]
+  },
+  {
+    "type": "itemstack",
+    "item": "minecraft:skull",
+    "metadata": "1",
+    "requirements": [
+      "reskillable:building|20",
+      "reskillable:attack|20",
+      "reskillable:defense|20"
+    ]
+  }
+]
