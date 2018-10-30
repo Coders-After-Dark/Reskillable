@@ -8,7 +8,7 @@ import com.google.gson.*;
 
 import java.lang.reflect.Type;
 
-public class CustomLockJson implements JsonDeserializer<LockJson>/*, JsonSerializer<BaseLockTypeJson>*/ {
+public class CustomLockJson implements JsonDeserializer<LockJson> {
     @Override
     public LockJson deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject obj = json.getAsJsonObject();
@@ -33,12 +33,4 @@ public class CustomLockJson implements JsonDeserializer<LockJson>/*, JsonSeriali
 
         return new LockJson(holder, key);
     }
-
-    /*
-    Not needed for now
-    @Override
-    public JsonElement serialize(BaseLockTypeJson src, Type typeOfSrc, JsonSerializationContext context) {
-        return null;
-    }
-    */
 }

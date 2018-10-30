@@ -12,8 +12,12 @@ public class CustomItemInfoJson implements JsonDeserializer<ItemInfo> {
     @Override
     public ItemInfo deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject obj = json.getAsJsonObject();
+        JsonElement itemElem = obj.get("item");
 
-        Item item = context.deserialize(obj.get("item"), Item.class);
+        if (itemElem == null)
+            throw new JsonParseException("No key 'item' given in ItemInfo json.");
+
+        Item item = context.deserialize(itemElem, Item.class);
         int meta = !obj.has("metadata") ? 0 : obj.get("metadata").getAsString().equals("*") ? OreDictionary.WILDCARD_VALUE : obj.get("metadata").getAsInt();
         JsonElement nbtJson = obj.get("nbt");
         NBTTagCompound tagCompound = null;

@@ -16,9 +16,7 @@ public class CustomNBTJson implements JsonDeserializer<NBTTagCompound> {
         try {
             return JsonToNBT.getTagFromJson(json.toString());
         } catch (NBTException e) {
-            e.printStackTrace();
+            throw new JsonParseException("Failed to read nbt from: " + json.toString(), e);
         }
-
-        return null;
     }
 }
